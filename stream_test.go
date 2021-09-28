@@ -2,7 +2,7 @@ package apeei
 
 import "testing"
 
-func TestGETlivestream(t *testing.T) {
+func TestLiveStream(t *testing.T) {
 	s := &Stream{}
 	got := s.LiveStreams()
 	want := []string{"sc2", "lol", "test"}
