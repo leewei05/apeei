@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func TestGETStreams(t *testing.T) {
+func TestGETStream(t *testing.T) {
 	t.Run("get sc2 stream", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/streams/sc2", nil)
+		request := newGetStreamRequest("sc2")
 		response := httptest.NewRecorder()
 
 		server := NewStreamServer()
@@ -18,13 +18,11 @@ func TestGETStreams(t *testing.T) {
 		got := response.Body.String()
 		want := "sc2"
 
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertBody(t, got, want)
 	})
 
 	t.Run("get lol stream", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/streams/lol", nil)
+		request := newGetStreamRequest("lol")
 		response := httptest.NewRecorder()
 
 		server := NewStreamServer()
@@ -34,8 +32,18 @@ func TestGETStreams(t *testing.T) {
 		got := response.Body.String()
 		want := "lol"
 
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertBody(t, got, want)
 	})
+}
+
+func newGetStreamRequest(streamName string) *http.Request {
+	request, _ := http.NewRequest(http.MethodGet, "/streams/"+streamName, nil)
+	return request
+}
+
+func assertBody(t testing.TB, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
 }
