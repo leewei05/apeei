@@ -3,6 +3,7 @@ package apeei
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type StreamServer struct {
@@ -20,5 +21,12 @@ func NewStreamServer() *StreamServer {
 }
 
 func StreamHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "sc2")
+	streamID := strings.TrimPrefix(r.URL.Path, "/streams/")
+
+	switch streamID {
+	case "sc2":
+		fmt.Fprintf(w, "sc2")
+	case "lol":
+		fmt.Fprintf(w, "lol")
+	}
 }
