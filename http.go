@@ -21,12 +21,19 @@ func NewStreamServer() *StreamServer {
 }
 
 func StreamHandler(w http.ResponseWriter, r *http.Request) {
-	streamID := strings.TrimPrefix(r.URL.Path, "/streams/")
+	streamName := strings.TrimPrefix(r.URL.Path, "/streams/")
 
-	switch streamID {
+	response := getStreamResponse(streamName)
+	fmt.Fprintf(w, response)
+}
+
+func getStreamResponse(streamName string) string {
+	switch streamName {
 	case "sc2":
-		fmt.Fprintf(w, "sc2")
+		return "sc2"
 	case "lol":
-		fmt.Fprintf(w, "lol")
+		return "lol"
 	}
+
+	return ""
 }
