@@ -5,6 +5,20 @@ import (
 	"net/http"
 )
 
-func StreamServer(w http.ResponseWriter, r *http.Request) {
+type StreamServer struct {
+	http.Handler
+}
+
+func NewStreamServer() *StreamServer {
+	s := new(StreamServer)
+
+	router := http.NewServeMux()
+	router.HandleFunc("/streams/", StreamHandler)
+
+	s.Handler = router
+	return s
+}
+
+func StreamHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "sc2")
 }

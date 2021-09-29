@@ -7,10 +7,12 @@ import (
 )
 
 func TestGETStreams(t *testing.T) {
-	request, _ := http.NewRequest(http.MethodGet, "/api/v1/streams", nil)
+	request, _ := http.NewRequest(http.MethodGet, "/streams/", nil)
 	response := httptest.NewRecorder()
 
-	StreamServer(response, request)
+	server := NewStreamServer()
+
+	server.ServeHTTP(response, request)
 
 	got := response.Body.String()
 	want := "sc2"
